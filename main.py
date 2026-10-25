@@ -1,4 +1,3 @@
-
 import random
 import nltk
 from nltk.tokenize import word_tokenize
@@ -18,16 +17,16 @@ def process_text(user_input):
     tokens = word_tokenize(lowered)
     return [lemmatizer.lemmatize(token) for token in tokens]
 
-# Diagnostic Solution Banks
+# Sollutions 
 SOLUTIONS = {
     'power': [
         "Alright first lets try holding down the power button for 15 seconds to force a hard restart.",
-        "Plug the phone on charge with a working cable and plug,then wait 10 mins. Your ('device') might have just ran out of battery",
+        "Plug the device on charge with a working cable and plug,then wait 10 mins. Your device might have just ran out of battery",
         "Lastly, Check if the outlet has power, or try plugging into a different wall socket."
     ],
     'screen': [
         "Try adjusting the brightness settings or shine a flashlight at the screen to see if display content is visible.",
-        "Connect the device to an external monitor or TV to test if it is a display hardware issue.",
+        "Connect the device to an external monitor or TV to test iclef it is a display hardware issue.",
         "Force restart the device using the physical button shortcut for your model."
     ],
     'not_charging': [
@@ -51,7 +50,7 @@ SOLUTIONS = {
 print('Bot: Welcome to Tech support, I am here to help you fix any device issues.')
 print("Type 'quit' or 'exit' at any point to stop the conversation.\n")
 
-# --- MAIN WORKFLOW LOOP ---
+# Questions
 while True:
     print("=" * 45)
 
@@ -66,7 +65,7 @@ while True:
             exit()
 
         if any(word in run for word in ['laptop', 'computer', 'pc', 'macbook', 'desktop']):
-            print("\nBot: Gotcha, computer issues can definitely be annoying.")
+            print("\nBot: Got it, computer issues can definitely be annoying.")
             device_name = device_input.lower()
             break
         elif any(word in run for word in ['tablet', 'ipad', 'kindle']):
@@ -78,14 +77,14 @@ while True:
             device_name = device_input.lower()
             break
         else:
-            print("\nBot: Sorry, I didn't quite catch that device type. Could you please specify if it's a phone, laptop, or tablet?")
+            print("\nBot: Sorry, I didn't understand that. Could you please specify if it's a phone, laptop, or tablet?")
 
     # STEP 2: Issue Categorization
     print("\n" + "-" * 45)
     category = None
 
     while category is None:
-        issue_input = input(f"\nBot: What seems to be the problem with your {device_name}? (e.g., screen broken, won't turn on, battery draining, not charging)\nYou: ")
+        issue_input = input(f"\nBot: What seems to be the problem with your device? (e.g., screen broken, won't turn on, battery draining, not charging)\nYou: ")
         issue_run = process_text(issue_input)
 
         if any(w in issue_run for w in ['quit', 'exit']):
@@ -101,7 +100,7 @@ while True:
         elif any(word in issue_run for word in ['charge', 'charging', 'plug', 'plugged', 'cable']):
             category = 'not_charging'
         else:
-            print("\nBot: Sorry, I didn't quite catch that. Please describe the problem using terms like 'screen', 'power', 'battery draining', or 'not charging'.")
+            print("\nBot: Sorry, I didn't understand that. Could you please describe the problem using terms like 'screen', 'power', 'battery draining', or 'not charging'.")
 
     # STEP 3: Sequential Troubleshooting Loop
     solution_list = SOLUTIONS[category]
@@ -119,11 +118,11 @@ while True:
                 print("\nBot: Thanks for using Tech Support! Goodbye!")
                 exit()
 
-            if any(word in feedback_run for word in ['yes', 'yeah', 'yep', 'fixed', 'worked', 'good']):
+            if any(word in feedback_run for word in ['yes', 'y', 'yeah', 'yep', 'fixed', 'worked', 'good']):
                 print("\nBot: Awesome! Glad we could get that sorted out.")
                 problem_solved = True
                 break
-            elif any(word in feedback_run for word in ['no', 'nope', 'nah', 'not', 'didn']):
+            elif any(word in feedback_run for word in ["no", "n", "nope", "nah", "not", "didn't"]):
                 print("\nBot: Sorry to hear that didn't work. Let's try the next step.")
                 solution_index += 1
                 break
@@ -133,7 +132,7 @@ while True:
         if problem_solved:
             break
 
-    # Exhausted Solutions Escalation
+    # Suggested Solutions don't work
     if not problem_solved:
         print("\nBot: If it still doesn't work, I recommend taking your device to an authorized technician or contacting manufacturer support.")
 
@@ -147,7 +146,7 @@ while True:
 
         if any(w in again_run for w in ['quit', 'exit']):
             break
-        elif any(word in again_run for word in ['yes', 'yeah', 'yep', 'sure', 'ok']):
+        elif any(word in again_run for word in ['yes','y' ,'yeah', 'yep', 'sure', 'ok']):
             should_restart = True
             break
         elif any(word in again_run for word in ['no', 'nope', 'nah', 'not']):
